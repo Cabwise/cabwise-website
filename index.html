@@ -233,7 +233,24 @@
       color: var(--accent);
     }
 
-    /* Phone frame */
+    /* Hero feature graphic */
+    .hero-visual {
+      justify-self: center;
+      width: min(520px, 100%);
+    }
+
+    .feature-graphic {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow:
+        0 24px 64px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(0, 230, 168, 0.08);
+    }
+
+    /* Phone frame (screenshot gallery) */
     .phone-frame {
       justify-self: center;
       width: min(280px, 100%);
@@ -613,6 +630,7 @@
       .hero-lead { margin-left: auto; margin-right: auto; }
       .hero-cta { justify-content: center; }
       .phone-frame { order: -1; }
+      .hero-visual { order: -1; }
       .feature-grid { grid-template-columns: 1fr; }
       .steps { grid-template-columns: repeat(2, 1fr); }
       .screenshot-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
@@ -665,13 +683,13 @@
             <a class="btn btn-ghost" href="#how-it-works">See how it works</a>
           </div>
         </div>
-        <div class="phone-frame" aria-hidden="true">
-          <div class="phone-shell">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <img src="/assets/screenshot-dashboard.png" width="390" height="844" alt="Cabwise dashboard showing ACCEPT guidance on a trip offer">
-            </div>
-          </div>
+        <div class="hero-visual">
+          <img
+            class="feature-graphic"
+            src="/assets/feature-graphic-1024x500.png"
+            width="1024"
+            height="500"
+            alt="Cabwise — Stay safe. Decide fast. Earn more. ACCEPT / DECLINE overlay and voice alerts">
         </div>
       </div>
     </section>
