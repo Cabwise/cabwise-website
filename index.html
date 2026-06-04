@@ -4,89 +4,850 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cabwise — Stay safe. Decide fast. Earn more.</title>
-  <meta name="description" content="Cabwise reduces distraction for ride-hailing drivers with glanceable ACCEPT or DECLINE guidance and optional voice announcements on every trip offer. Operated by Bellsle Ltd.">
+  <meta name="description" content="Cabwise helps ride-hailing drivers decide faster with glanceable ACCEPT or DECLINE guidance, voice announcements, and £/mile and £/hour targets. Operated by Bellsle Ltd.">
+  <link rel="icon" href="/assets/cabwise-icon-512.png" type="image/png">
   <style>
     :root {
       --bg: #0b1412;
+      --bg-elevated: #0f1a17;
       --card: #12201c;
+      --card-hover: #152822;
       --text: #f4f7f6;
-      --muted: #a8b5b0;
+      --muted: #9aa8a3;
       --accent: #00e6a8;
+      --accent-dim: rgba(0, 230, 168, 0.12);
+      --accent-glow: rgba(0, 230, 168, 0.35);
       --border: #1e332c;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --nav-h: 64px;
+      --max: 1120px;
     }
-    * { box-sizing: border-box; }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
-    .wrap { max-width: 720px; margin: 0 auto; padding: 48px 20px 64px; }
-    .badge {
+
+    img { max-width: 100%; height: auto; display: block; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .skip-link:focus {
+      left: 16px;
+      top: 16px;
+      width: auto;
+      height: auto;
+      padding: 10px 16px;
+      background: var(--card);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-sm);
+      z-index: 200;
+      color: var(--text);
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* —— Header / Nav —— */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(11, 20, 18, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--nav-h);
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .brand:hover { text-decoration: none; opacity: 0.95; }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 4px 20px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.15s;
+    }
+    .nav a:hover { color: var(--accent); text-decoration: none; }
+
+    /* —— Hero —— */
+    .hero {
+      padding: 56px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-badge {
       display: inline-block;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 12px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(0, 230, 168, 0.25);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 20px;
     }
-    h1 { font-size: clamp(2rem, 6vw, 2.75rem); margin: 0 0 8px; }
-    .tagline { color: var(--accent); font-size: 1.15rem; margin: 0 0 24px; }
-    p { color: var(--muted); margin: 0 0 16px; }
-    .card {
+
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      line-height: 1.12;
+      margin: 0 0 16px;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      color: var(--accent);
+      font-weight: 600;
+      margin: 0 0 20px;
+    }
+
+    .hero-lead {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin: 0 0 28px;
+      max-width: 32em;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover { text-decoration: none; transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #042218;
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      background: #33ebb9;
+      box-shadow: 0 6px 28px var(--accent-glow);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Phone frame */
+    .phone-frame {
+      justify-self: center;
+      width: min(280px, 100%);
+      position: relative;
+    }
+
+    .phone-shell {
+      background: linear-gradient(145deg, #1a2e28 0%, #0d1614 100%);
+      border: 3px solid #2a4540;
+      border-radius: 36px;
+      padding: 12px;
+      box-shadow:
+        0 24px 64px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(0, 230, 168, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .phone-notch {
+      width: 96px;
+      height: 22px;
+      background: #0b1412;
+      border-radius: 0 0 14px 14px;
+      margin: 0 auto 8px;
+    }
+
+    .phone-screen {
+      border-radius: 24px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 9 / 19.5;
+    }
+
+    .phone-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    /* —— Sections —— */
+    section {
+      padding: 72px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 10px;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      margin: 0 0 40px;
+      max-width: 42em;
+      font-size: 1.05rem;
+    }
+
+    /* Feature cards */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      margin: 28px 0;
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: border-color 0.2s, background 0.2s;
     }
-    .card h2 { font-size: 1rem; margin: 0 0 12px; color: var(--text); }
-    ul { margin: 0; padding-left: 1.2rem; color: var(--muted); }
-    li { margin-bottom: 8px; }
-    .contact a { color: var(--accent); text-decoration: none; }
-    .contact a:hover { text-decoration: underline; }
-    footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
+    .feature-card:hover {
+      background: var(--card-hover);
+      border-color: rgba(0, 230, 168, 0.3);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Steps */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding: 24px 20px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #042218;
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
       font-size: 0.9rem;
+    }
+
+    /* Screenshot gallery */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .screenshot-item {
+      text-align: center;
+    }
+
+    .screenshot-frame {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .screenshot-frame img {
+      width: 100%;
+      border-radius: 8px;
+      aspect-ratio: 9 / 19.5;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .screenshot-item figcaption {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* Pricing */
+    .pricing-card {
+      max-width: 520px;
+      background: linear-gradient(160deg, var(--card) 0%, var(--bg-elevated) 100%);
+      border: 1px solid rgba(0, 230, 168, 0.35);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      box-shadow: 0 8px 40px rgba(0, 230, 168, 0.08);
+    }
+
+    .pricing-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .pricing-trial {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 0 0 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .pricing-card ul {
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
       color: var(--muted);
     }
-    footer a { color: var(--accent); margin-right: 16px; }
+
+    .pricing-card li {
+      padding: 8px 0 8px 28px;
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    .pricing-card li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .pricing-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* FAQ */
+    .faq-list {
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    details.faq-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    details.faq-item[open] {
+      border-color: rgba(0, 230, 168, 0.35);
+    }
+
+    .faq-item summary {
+      padding: 18px 22px;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary::after {
+      content: "+";
+      font-size: 1.25rem;
+      color: var(--accent);
+      font-weight: 400;
+      flex-shrink: 0;
+    }
+
+    .faq-item[open] summary::after { content: "−"; }
+
+    .faq-item .faq-answer {
+      padding: 0 22px 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    /* Accessibility */
+    .a11y-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      max-width: 720px;
+    }
+
+    .a11y-box h3 {
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+    }
+
+    .a11y-box p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .a11y-box p:last-child { margin-bottom: 0; }
+
+    /* Contact */
+    .contact-block {
+      text-align: center;
+      padding: 48px 0 0;
+    }
+
+    .contact-block p {
+      color: var(--muted);
+      margin: 0 0 8px;
+    }
+
+    .contact-email {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .site-footer {
+      margin-top: 0;
+      padding: 48px 0 40px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-elevated);
+    }
+
+    .footer-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .footer-brand:hover { text-decoration: none; opacity: 0.9; }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--accent); text-decoration: none; }
+
+    .footer-bottom {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-lead { margin-left: auto; margin-right: auto; }
+      .hero-cta { justify-content: center; }
+      .phone-frame { order: -1; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .screenshot-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
+    }
+
+    @media (max-width: 600px) {
+      .nav { gap: 8px 14px; }
+      .nav a { font-size: 0.82rem; }
+      .steps { grid-template-columns: 1fr; }
+      section { padding: 56px 0; }
+      .footer-top { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .btn:hover { transform: none; }
+    }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <div class="badge">Bellsle Ltd</div>
-    <h1>Cabwise</h1>
-    <p class="tagline">Stay safe. Decide fast. Earn more.</p>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-    <p>Cabwise helps ride-hailing drivers stay focused on the road. When a new trip offer arrives, Cabwise reads the details on your device and shows a clear <strong style="color:var(--text)">ACCEPT</strong> or <strong style="color:var(--text)">DECLINE</strong> bar at the top of your screen — so you spend less time staring at numbers and more time driving safely.</p>
-
-    <p>Less distraction. Faster decisions. Optional voice announcements so you can hear ACCEPT or DECLINE without looking down. More time earning — safely.</p>
-
-    <p>Cabwise is operated by <strong style="color:var(--text)">Bellsle Ltd</strong>, United Kingdom.</p>
-
-    <div class="card">
-      <h2>What you get</h2>
-      <ul>
-        <li>Glanceable ACCEPT / DECLINE overlay — keep your eyes on the road</li>
-        <li>Voice announcements — hear the verdict without looking at the screen</li>
-        <li>Less time reading trip details, more time earning safely</li>
-        <li>Custom £/mile and £/hour targets</li>
-        <li>Settings sync to your account</li>
-        <li>3-day free trial, then subscription via Google Play</li>
-      </ul>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="Cabwise home">
+        <img class="brand-logo" src="/assets/cabwise-icon-512.png" width="40" height="40" alt="">
+        <span>Cabwise</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#how-it-works">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
+  </header>
 
-    <p class="contact"><strong style="color:var(--text)">Contact:</strong> <a href="mailto:support@cabwise.app">support@cabwise.app</a></p>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="hero-badge">Bellsle Ltd</span>
+          <h1 id="hero-heading">Cabwise</h1>
+          <p class="hero-tagline">Stay safe. Decide fast. Earn more.</p>
+          <p class="hero-lead">Cabwise helps ride-hailing drivers stay focused on the road. When a new trip offer arrives, Cabwise reads the details on your device and shows a clear <strong>ACCEPT</strong> or <strong>DECLINE</strong> bar — so you spend less time staring at numbers and more time driving safely.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#pricing">Start your free trial</a>
+            <a class="btn btn-ghost" href="#how-it-works">See how it works</a>
+          </div>
+        </div>
+        <div class="phone-frame" aria-hidden="true">
+          <div class="phone-shell">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="/assets/screenshot-dashboard.png" width="390" height="844" alt="Cabwise dashboard showing ACCEPT guidance on a trip offer">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <footer>
-      <a href="/privacy">Privacy Policy</a>
-      <a href="/terms">Terms of Service</a>
-      <p style="margin-top:12px;">© Bellsle Ltd. All rights reserved.</p>
-    </footer>
+    <section id="how-it-works" aria-labelledby="how-heading">
+      <div class="wrap">
+        <p class="section-label">How it works</p>
+        <h2 class="section-title" id="how-heading">Earn smarter on every offer</h2>
+        <p class="section-intro">Set your targets once. Cabwise evaluates each trip against your £/mile, £/hour, and pickup preferences — then gives you a glanceable verdict before you tap accept.</p>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">£</div>
+            <h3>£/mile target</h3>
+            <p>Define the minimum rate per mile you need. Cabwise flags offers that fall short so you do not accept unprofitable trips.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">⏱</div>
+            <h3>£/hour target</h3>
+            <p>Protect your effective hourly rate. Long pickups and slow routes are weighed against your floor so dead time does not eat your shift.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">📍</div>
+            <h3>Pickup distance</h3>
+            <p>Limit how far you are willing to drive for a pickup. Offers with excessive dead miles surface as DECLINE before you commit.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="steps" aria-labelledby="steps-heading">
+      <div class="wrap">
+        <p class="section-label">Getting started</p>
+        <h2 class="section-title" id="steps-heading">Four steps to safer decisions</h2>
+        <p class="section-intro">From sign-in to your first guided offer — Cabwise stays out of your way until you need a fast answer.</p>
+        <div class="steps">
+          <article class="step">
+            <span class="step-num" aria-hidden="true">1</span>
+            <h3>Install &amp; sign in</h3>
+            <p>Download Cabwise from Google Play, sign in with your account, and grant the permissions needed to read trip offers on your device.</p>
+          </article>
+          <article class="step">
+            <span class="step-num" aria-hidden="true">2</span>
+            <h3>Set your targets</h3>
+            <p>Enter your £/mile, £/hour, and maximum pickup distance. Settings sync to your account across devices.</p>
+          </article>
+          <article class="step">
+            <span class="step-num" aria-hidden="true">3</span>
+            <h3>Drive as usual</h3>
+            <p>Keep your ride-hailing app in the foreground. When a new offer appears, Cabwise analyses it in the background.</p>
+          </article>
+          <article class="step">
+            <span class="step-num" aria-hidden="true">4</span>
+            <h3>Glance &amp; decide</h3>
+            <p>See ACCEPT or DECLINE at the top of your screen — or hear it via optional voice announcements — then tap in your platform app.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenshots" aria-labelledby="gallery-heading">
+      <div class="wrap">
+        <p class="section-label">In the app</p>
+        <h2 class="section-title" id="gallery-heading">Built for the road</h2>
+        <p class="section-intro">High-contrast guidance, clear settings, and a dashboard that puts your verdict first.</p>
+        <div class="screenshot-grid">
+          <figure class="screenshot-item">
+            <div class="screenshot-frame">
+              <img src="/assets/screenshot-sign-in.png" width="390" height="844" alt="Cabwise sign-in screen">
+            </div>
+            <figcaption>Sign in securely</figcaption>
+          </figure>
+          <figure class="screenshot-item">
+            <div class="screenshot-frame">
+              <img src="/assets/screenshot-how-it-works.png" width="390" height="844" alt="Cabwise how it works and target settings">
+            </div>
+            <figcaption>Set your targets</figcaption>
+          </figure>
+          <figure class="screenshot-item">
+            <div class="screenshot-frame">
+              <img src="/assets/screenshot-dashboard.png" width="390" height="844" alt="Cabwise dashboard with trip guidance">
+            </div>
+            <figcaption>ACCEPT / DECLINE at a glance</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" aria-labelledby="pricing-heading">
+      <div class="wrap">
+        <p class="section-label">Pricing</p>
+        <h2 class="section-title" id="pricing-heading">Try Cabwise free for 3 days</h2>
+        <p class="section-intro">Explore every feature during your trial. Subscribe via Google Play when you are ready to keep earning smarter.</p>
+        <div class="pricing-card">
+          <h3>Cabwise subscription</h3>
+          <p class="pricing-trial">3-day free trial</p>
+          <ul>
+            <li>Glanceable ACCEPT / DECLINE overlay on every offer</li>
+            <li>Optional voice announcements</li>
+            <li>Custom £/mile, £/hour, and pickup limits</li>
+            <li>Settings synced to your account</li>
+            <li>Cancel anytime through Google Play</li>
+          </ul>
+          <p class="pricing-note">Pricing and billing are handled by Google Play. Availability may vary by region. No download link is shown here until the app is published on the store.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-heading">
+      <div class="wrap">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title" id="faq-heading">Common questions</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Does Cabwise accept trips for me?</summary>
+            <p class="faq-answer">No. Cabwise only provides guidance — ACCEPT or DECLINE — based on your targets. You still accept or decline offers in your ride-hailing app exactly as you do today.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Which ride-hailing platforms are supported?</summary>
+            <p class="faq-answer">Cabwise reads trip offer details displayed on your Android device. Support depends on how offers appear in your platform’s driver app. Contact support@cabwise.app if you need help with your setup.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How does the 3-day trial work?</summary>
+            <p class="faq-answer">New subscribers receive a 3-day free trial through Google Play. You will not be charged until the trial ends unless you cancel before it expires. Manage or cancel your subscription in Google Play at any time.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is my data shared with third parties?</summary>
+            <p class="faq-answer">Cabwise is operated by Bellsle Ltd in the United Kingdom. We collect only what is needed to run the service. See our <a href="/privacy">Privacy Policy</a> for full details on data use, retention, and your rights.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="accessibility" aria-labelledby="a11y-heading">
+      <div class="wrap">
+        <p class="section-label">Accessibility</p>
+        <h2 class="section-title" id="a11y-heading">Accessibility disclosure</h2>
+        <div class="a11y-box">
+          <h3>Designed for quick glances</h3>
+          <p>Cabwise uses high-contrast ACCEPT and DECLINE indicators and optional voice announcements so drivers can reduce time looking at detailed fare breakdowns while driving.</p>
+          <p>Voice announcements can supplement on-screen guidance for users who benefit from auditory feedback. This website aims to meet common accessibility practices: semantic headings, skip navigation, keyboard-focusable controls, and respect for <code>prefers-reduced-motion</code>.</p>
+          <p>If you encounter barriers using Cabwise or this site, please email <a href="mailto:support@cabwise.app">support@cabwise.app</a> and we will work to address your needs.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="wrap contact-block">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title" id="contact-heading">We are here to help</h2>
+        <p>Questions about setup, billing, or your account?</p>
+        <p class="contact-email"><a href="mailto:support@cabwise.app">support@cabwise.app</a></p>
+        <p>Cabwise is operated by <strong>Bellsle Ltd</strong>, United Kingdom.</p>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="footer-brand" href="/" aria-label="Cabwise home">
+          <img class="brand-logo" src="/assets/cabwise-icon-512.png" width="40" height="40" alt="">
+          <span>Cabwise</span>
+        </a>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/delete-account">Delete account</a>
+          <a href="mailto:support@cabwise.app">Contact</a>
+        </nav>
+      </div>
+      <p class="footer-bottom">© <span id="year"></span> Bellsle Ltd. All rights reserved. Cabwise is a ride-hailing driver decision tool — not affiliated with any transport platform.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
