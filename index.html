@@ -233,6 +233,64 @@
       color: var(--accent);
     }
 
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 14px !important;
+      background: var(--accent) !important;
+      color: #042218 !important;
+      border-radius: var(--radius-sm);
+      font-weight: 600 !important;
+    }
+    .nav-cta:hover {
+      color: #042218 !important;
+      opacity: 0.92;
+      text-decoration: none !important;
+    }
+
+    .play-badge-link {
+      display: inline-block;
+      line-height: 0;
+      border-radius: 8px;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .play-badge-link:hover {
+      text-decoration: none;
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+    .play-badge-link img {
+      height: 60px;
+      width: auto;
+      display: block;
+    }
+    .play-badge-link.play-badge-lg img {
+      height: 72px;
+    }
+
+    .download-banner {
+      padding: 32px 0;
+      background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .download-banner-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px 32px;
+    }
+    .download-banner-text h2 {
+      margin: 0 0 6px;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+    .download-banner-text p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
     /* Hero feature graphic */
     .hero-visual {
       justify-self: center;
@@ -661,9 +719,10 @@
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="#how-it-works">How it works</a>
+        <a href="#download">Download</a>
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
-        <a href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer">Get the app</a>
+        <a class="nav-cta" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer">Get the app</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
         <a href="#contact">Contact</a>
@@ -680,7 +739,9 @@
           <p class="hero-tagline">Stay safe. Decide fast. Earn more.</p>
           <p class="hero-lead">Cabwise helps ride-hailing drivers stay focused on the road. When a new trip offer arrives, Cabwise reads the details on your device and shows a clear <strong>ACCEPT</strong> or <strong>DECLINE</strong> bar — so you spend less time staring at numbers and more time driving safely.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer">Get it on Google Play</a>
+            <a class="play-badge-link play-badge-lg" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer" aria-label="Get Cabwise on Google Play">
+              <img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width="270" height="72" alt="Get it on Google Play">
+            </a>
             <a class="btn btn-ghost" href="#how-it-works">See how it works</a>
           </div>
         </div>
@@ -692,6 +753,18 @@
             height="500"
             alt="Cabwise — Stay safe. Decide fast. Earn more. ACCEPT / DECLINE overlay and voice alerts">
         </div>
+      </div>
+    </section>
+
+    <section class="download-banner" id="download" aria-labelledby="download-heading">
+      <div class="wrap download-banner-inner">
+        <div class="download-banner-text">
+          <h2 id="download-heading">Download Cabwise for Android</h2>
+          <p>Free 3-day trial · United Kingdom · Install from Google Play</p>
+        </div>
+        <a class="play-badge-link play-badge-lg" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer" aria-label="Get Cabwise on Google Play">
+          <img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width="270" height="72" alt="Get it on Google Play">
+        </a>
       </div>
     </section>
 
@@ -794,7 +867,9 @@
             <li>Cancel anytime through Google Play</li>
           </ul>
           <p style="margin-top: 28px; margin-bottom: 0;">
-            <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer">Download on Google Play</a>
+            <a class="play-badge-link play-badge-lg" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer" aria-label="Download Cabwise on Google Play">
+              <img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width="270" height="72" alt="Get it on Google Play">
+            </a>
           </p>
           <p class="pricing-note">Pricing and billing are handled by Google Play. Available in the United Kingdom. 3-day free trial for new subscribers.</p>
         </div>
@@ -845,7 +920,9 @@
         <h2 class="section-title" id="contact-heading">We are here to help</h2>
         <p>Questions about setup, billing, or your account?</p>
         <p style="margin: 20px 0;">
-          <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer">Get Cabwise on Google Play</a>
+          <a class="play-badge-link play-badge-lg" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer" aria-label="Get Cabwise on Google Play">
+            <img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width="270" height="72" alt="Get it on Google Play">
+          </a>
         </p>
         <p class="contact-email"><a href="mailto:support@cabwise.app">support@cabwise.app</a></p>
         <p>Cabwise is operated by <strong>Bellsle Ltd</strong>, United Kingdom.</p>
@@ -859,6 +936,9 @@
         <a class="footer-brand" href="/" aria-label="Cabwise home">
           <img class="brand-logo" src="/assets/cabwise-icon-512.png" width="40" height="40" alt="">
           <span>Cabwise</span>
+        </a>
+        <a class="play-badge-link" href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer" aria-label="Get Cabwise on Google Play">
+          <img src="https://play.google.com/intl/en_gb/badges/static/images/badges/en_badge_web_generic.png" width="270" height="72" alt="Get it on Google Play">
         </a>
         <nav class="footer-links" aria-label="Footer">
           <a href="https://play.google.com/store/apps/details?id=com.cabwise.app" target="_blank" rel="noopener noreferrer">Google Play</a>
